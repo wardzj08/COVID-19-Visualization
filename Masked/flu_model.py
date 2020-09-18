@@ -33,65 +33,7 @@ class FluAgent(Agent):
         possible_steps = self.model.grid.get_neighborhood(
             self.pos, moore=True, include_center=True)
         
-        # Social Distancing
-        if self.model.socialDistancing == True:
-            #print("Social Distancing In Effect")
-            p_badmv = 0.025
-            mv_probs = [0] * len(possible_steps)
-            #print('Number of mvs:',len(mv_probs))
-            count = 0
-            # Check if adjacent cells for each move contain agents, if they do, 
-            # place a penalty on moving to that cell. Over time, this should prioritze movements 
-            # toward locations that are spread apart from one another
-            for i, mv in enumerate(possible_steps):
-                #print(i, mv)
-                # Should get neighbors here and check if each of those neighbors is empty
-                adj_cells = self.model.grid.get_neighborhood(
-                mv, moore=True, include_center=False)
-               # mv_bool
-                for adj in adj_cells:
-                    tmp = True
-                    # If any adjacent cell for a move has an agent, then reduce the probability
-                    if self.model.grid.is_cell_empty(adj) == False:
-                        #mv_probs[i] = 0.075
-                        tmp = False
-                        #continue # break this loop
-                if tmp == False:
-                   # print('I:', i);
-                    mv_probs[i] = p_badmv
-                    count += 1
-                        
-            # Original (checking adj moves)
-            # if self.model.grid.is_cell_empty(mv) == False:
-                #    mv_probs[i] = 0.075
-                 #   count += 1
-           # print(mv_probs)
-            indexes = [i for i, x in enumerate(mv_probs) if x == 0]
-          #  print('Number of empties:', len(indexes))
-          #  print('Empties: ',indexes)
-          #  print('Num Bad Moves: ', count)
-            if count != 0 and len(indexes) > 0:
-                replacements = [(1-(p_badmv * count))/(len(indexes))] * len(indexes)
-
-             ##   print('Replacements: ', replacements)                               
-
-                for j, index in enumerate(indexes):
-                    mv_probs[index] = replacements[j]
-               # print(mv_probs)
-        
-                
-        
-        # pick randomly from list of spaces & move there
-        #new_position = self.random.choice(possible_steps, p = mv_probs)
-            vals = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        #new_position = np.random.choice(possible_steps, len(possible_steps), p = mv_probs)
-            if count != 0 and len(indexes) > 0:
-                new_position = possible_steps[np.random.choice(vals,p=mv_probs)]
-            else:
-                new_position = self.random.choice(possible_steps)
-        # With no social distancing
-        else:
-            new_position = self.random.choice(possible_steps)
+        new_position = self.random.choice(possible_steps)
        
         # Make move
         self.model.grid.move_agent(self, new_position)

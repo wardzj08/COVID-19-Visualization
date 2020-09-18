@@ -1,7 +1,12 @@
 # Ignore files
 
-./data/
-./tsting/
-./Masked/imgs/
+data/
+tsting/
+Masked/imgs/
 plotting.ipynb
 ./chromedriver_win32/
+__pycache__/
+.ipynb_checkpoints/
+Masked/__pycache__/
+Masked/.ipynb_checkpoints/
+
