@@ -1,0 +1,7 @@
+# Ignore files
+
+./data/
+./tsting/
+./Masked/imgs/
+plotting.ipynb
+./chromedriver_win32/
